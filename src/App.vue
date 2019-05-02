@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <div id="nav"></div>
+    <!--<div id="nav"></div>-->
+    <buttonsBar></buttonsBar>
     <GmapMap
       :center="center"
       :zoom="2"
@@ -16,9 +17,10 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+  import { mapGetters } from 'vuex';
+  import ButtonsBar from './components/ButtonsBar.vue';
 
-export default {
+  export default {
   data() {
     return {
       center: {
@@ -26,6 +28,9 @@ export default {
         lng: 0,
       },
     };
+  },
+  components: {
+    buttonsBar: ButtonsBar,
   },
   computed: {
     ...mapGetters(['getLastMarker']),
