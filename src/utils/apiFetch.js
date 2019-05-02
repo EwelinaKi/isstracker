@@ -5,6 +5,4 @@ async function getActualPos() {
   return body;
 }
 
-
-// export const apiFetch = api;
 export default { getActualPos };
