@@ -8,8 +8,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     markers: [],
-    duration: 50,
     historyMarkers: [],
+    realtime: false,
+    duration: 50,
   },
   mutations: {
     async update(state) {
@@ -22,12 +23,21 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async getHistoryData() {
+    async getHistoryData({ dispatch }) {
+      dispatch('stopRealtime');
       if (utils.validateInput(this.state.duration)) {
         this.state.historyMarkers = await utils.getHistoryPath(this.state.duration);
       } else {
+        // eslint-disable-next-line
         console.log('Invalid input');
       }
+    },
+    toggleRealTime() {
+      this.state.historyMarkers = [];
+      this.state.realtime = !this.state.realtime;
+    },
+    stopRealtime() {
+      this.state.realtime = false;
     },
   },
 });

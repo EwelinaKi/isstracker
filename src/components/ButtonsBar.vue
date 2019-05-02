@@ -3,7 +3,9 @@
     <h1><span>ISS</span>TRACKER</h1>
     <div class="buttons">
       <div>
-        <button>Click</button>
+        <button @click="$store.dispatch('toggleRealTime')">
+          {{$store.state.realtime ? "Stop" : "Start"}}
+        </button>
       </div>
       <div class="history">
         <div class="input">
