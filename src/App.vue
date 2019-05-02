@@ -7,12 +7,16 @@
       map-type-id="terrain"
       style="min-width: 900px; height: 600px; margin: auto"
     >
+      <GmapMarker
+        :position="getLastMarker"
+      />
     </GmapMap>
   </div>
 </template>
 
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -22,6 +26,12 @@ export default {
         lng: 0,
       },
     };
+  },
+  computed: {
+    ...mapGetters(['getLastMarker']),
+  },
+  mounted() {
+    this.$store.commit('update');
   },
 };
 
