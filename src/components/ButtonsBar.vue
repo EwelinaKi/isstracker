@@ -3,13 +3,13 @@
     <h1><span>ISS</span>TRACKER</h1>
     <div class="buttons">
       <div>
-        <button >Click</button>
+        <button>Click</button>
       </div>
       <div class="history">
         <div class="input">
-          <input type="number" min="10" max="120"/>min
+          <input type="number" min="10" max="120"  v-model="$store.state.duration"/>min
         </div>
-        <button>History</button>
+        <button @click="$store.dispatch('getHistoryData')">History</button>
       </div>
     </div>
   </div>
@@ -18,7 +18,8 @@
 <script>
 export default {
   name: 'buttonsBar',
-  props: {
+  props: [],
+  methods: {
   },
 };
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!--<div id="nav"></div>-->
     <buttonsBar></buttonsBar>
     <GmapMap
       :center="center"
@@ -8,19 +7,18 @@
       map-type-id="terrain"
       style="min-width: 900px; height: 600px; margin: auto"
     >
-      <GmapMarker
-        :position="getLastMarker"
-      />
+      <GmapMarker :position="getLastMarker()"/>
+      <!--<GmapPolyline v-if="$store.state.markers.length >= 1" :path="$store.state.markers"/>-->
+      <GmapPolyline v-if="$store.state.historyMarkers.length >= 1" :path="$store.state.historyMarkers"/>
     </GmapMap>
   </div>
 </template>
 
-
 <script>
-  import { mapGetters } from 'vuex';
-  import ButtonsBar from './components/ButtonsBar.vue';
+import { mapState } from 'vuex';
+import ButtonsBar from './components/ButtonsBar.vue';
 
-  export default {
+export default {
   data() {
     return {
       center: {
@@ -33,13 +31,17 @@
     buttonsBar: ButtonsBar,
   },
   computed: {
-    ...mapGetters(['getLastMarker']),
+    ...mapState(['markers', 'historyMarkers']),
   },
   mounted() {
     this.$store.commit('update');
   },
+  methods: {
+    getLastMarker() {
+      return this.$store.state.markers[this.$store.state.markers.length - 1];
+    },
+  },
 };
-
 </script>
 
 <style>

@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import api from './utils/apiFetch';
+import utils from './utils/utils';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     markers: [],
-  },
-  getters: {
-    getLastMarker: state => state.markers[state.markers.length - 1],
+    duration: 50,
+    historyMarkers: [],
   },
   mutations: {
     async update(state) {
@@ -22,5 +22,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async getHistoryData() {
+      if (utils.validateInput(this.state.duration)) {
+        this.state.historyMarkers = await utils.getHistoryPath(this.state.duration);
+      } else {
+        console.log('Invalid input');
+      }
+    },
   },
 });
