@@ -1,10 +1,12 @@
 import apiFetch from './apiFetch';
 
+const MAX_NUMBER_OF_STAMPS = 10;
+
 function createTimestampsString(duration) {
   const startTimeStamp = Math.floor(Date.now() / 1000);
   const delta = Math.floor(duration / 10);
   const timeStamps = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < MAX_NUMBER_OF_STAMPS; i++) {
     timeStamps.push(startTimeStamp - Math.floor(i * delta * 60));
   }
   return timeStamps.join(',');
@@ -16,8 +18,16 @@ async function getHistoryPath(duration) {
 
   return Array.from(historyData).map(el => ({ lat: el.latitude, lng: el.longitude }));
 }
-function validateInput(input) {
-  return (/^[0-9]/).test(input) && input >= 10 && input <= 120;
+function validateInput(input, min, max) {
+  return (/^[0-9]/).test(input) && input >= min && input <= max;
 }
 
-export default { getHistoryPath, validateInput };
+async function getActualPos() {
+  const data = await apiFetch.getActualPos();
+  return {
+    lat: data.latitude,
+    lng: data.longitude,
+  };
+}
+
+export default { getHistoryPath, validateInput, getActualPos };

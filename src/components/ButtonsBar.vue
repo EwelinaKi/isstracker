@@ -9,7 +9,10 @@
       </div>
       <div class="history">
         <div class="input">
-          <input type="number" min="10" max="120"  v-model="$store.state.duration"/>min
+          <input type="number"
+                 :min=$store.state.minDuration
+                 :max=$store.state.maxDuration
+                 v-model="$store.state.duration"/>min
         </div>
         <button @click="$store.dispatch('getHistoryData')">History</button>
       </div>

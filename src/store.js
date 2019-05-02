@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import api from './utils/apiFetch';
 import utils from './utils/utils';
 
 Vue.use(Vuex);
@@ -11,21 +10,19 @@ export default new Vuex.Store({
     historyMarkers: [],
     realtime: false,
     duration: 50,
+    maxDuration: 120,
+    minDuration: 10,
   },
   mutations: {
     async update(state) {
-      const pos = await api.getActualPos();
-      const obj = {
-        lat: pos.latitude,
-        lng: pos.longitude,
-      };
+      const obj = await utils.getActualPos();
       state.markers.push(obj);
     },
   },
   actions: {
     async getHistoryData({ dispatch }) {
       dispatch('stopRealtime');
-      if (utils.validateInput(this.state.duration)) {
+      if (utils.validateInput(this.state.duration, this.state.minDuration, this.state.maxDuration)) {
         this.state.historyMarkers = await utils.getHistoryPath(this.state.duration);
       } else {
         // eslint-disable-next-line
