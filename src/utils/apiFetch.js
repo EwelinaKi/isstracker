@@ -1,14 +1,25 @@
+const ISS_API_URL = 'https://api.wheretheiss.at/v1/satellites/25544';
 
-async function getActualPos() {
-  const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
-  const body = await response.json();
-  return body;
+async function fetchIssApi(url) {
+  try {
+    const response = await fetch(`${ISS_API_URL}${url}`);
+    const { status } = response;
+    if (status !== 200) {
+      throw new Error(`Invalid status received: ${status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(`Couldn't fetch position at ${ISS_API_URL}: `, error.message);
+    return {};
+  }
 }
 
-async function getHistoryPos(timestamps) {
-  const response = await fetch(`https://api.wheretheiss.at/v1/satellites/25544/positions?timestamps=${timestamps}`);
-  const body = await response.json();
-  return body;
+async function getActualPositions() {
+  return fetchIssApi('/');
 }
 
-export default { getActualPos, getHistoryPos };
+async function getHistoryPositions(timestamps) {
+  return fetchIssApi(`/positions?timestamps=${timestamps}`);
+}
+
+export default { getActualPositions, getHistoryPositions };

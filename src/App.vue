@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <buttonsBar></buttonsBar>
+    <buttonsBar/>
     <GmapMap
       :center="center"
       :zoom="2"
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import { mapState } from 'vuex';
 import ButtonsBar from './components/ButtonsBar.vue';
 
@@ -40,9 +39,11 @@ export default {
   },
   mounted() {
     this.$store.commit('update');
-    this.$nextTick(function () {
+    this.$nextTick(() => {
       window.setInterval(() => {
-        this.$store.state.realtime && this.$store.commit('update');
+        if (this.$store.state.realtime) {
+          this.$store.commit('update');
+        }
       },
       2000);
     });
