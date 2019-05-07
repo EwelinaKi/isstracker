@@ -3,18 +3,20 @@
     <h1><span>ISS</span>TRACKER</h1>
     <div class="buttons">
       <div>
-        <button @click="$store.dispatch('toggleRealTime')">
+        <button id="realtimeToggler" @click="$store.dispatch('toggleRealTime')">
           {{$store.state.realtime ? "Stop" : "Start"}}
         </button>
       </div>
       <div class="history">
         <div class="input">
           <input type="number"
+                 id="durationInput"
                  :min=$store.state.minDuration
                  :max=$store.state.maxDuration
-                 v-model="$store.state.duration"/>min
+                 v-model="$store.state.durationInMinutes"/>
+          min
         </div>
-        <button @click="$store.dispatch('getHistoryData')">History</button>
+        <button id="historyBtn" @click="$store.dispatch('getHistoryData')">History</button>
       </div>
     </div>
   </div>

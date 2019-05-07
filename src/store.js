@@ -9,23 +9,31 @@ export default new Vuex.Store({
     markers: [],
     historyMarkers: [],
     realtime: false,
-    duration: 50,
+    durationInMinutes: 50,
     maxDuration: 120,
     minDuration: 10,
   },
   mutations: {
     async update(state) {
-      const obj = await utils.getActualPos();
-      state.markers.push(obj);
+      const obj = await utils.getActualPositions();
+      if (obj.lat && obj.lng) {
+        state.markers.push(obj);
+      }
     },
   },
   actions: {
     async getHistoryData({ dispatch }) {
       dispatch('stopRealtime');
-      if (utils.validateInput(this.state.duration, this.state.minDuration, this.state.maxDuration)) {
-        this.state.historyMarkers = await utils.getHistoryPath(this.state.duration);
+      if (utils.validateInput(
+        this.state.durationInMinutes,
+        this.state.minDuration,
+        this.state.maxDuration,
+      )) {
+        const historyMarkers = await utils.getHistoryPath(this.state.durationInMinutes);
+        if (historyMarkers) {
+          this.state.historyMarkers = historyMarkers;
+        }
       } else {
-        // eslint-disable-next-line
         console.log('Invalid input');
       }
     },
