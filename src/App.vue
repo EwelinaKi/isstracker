@@ -16,7 +16,7 @@ export default {
     mapComp: Map,
   },
   computed: {
-    ...mapState(['markers', 'realtime']),
+    ...mapState(['realtime']),
   },
   mounted() {
     this.$store.commit('update');
