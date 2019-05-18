@@ -9,11 +9,11 @@
     >
       <GmapMarker :position="getLastMarker()"/>
       <GmapPolyline
-        v-if="$store.state.realtime"
-        :path="$store.state.markers"/>
+        v-if="realtime"
+        :path="markers"/>
       <GmapPolyline
-        v-if="$store.state.historyMarkers.length >= 1"
-        :path="$store.state.historyMarkers"/>
+        v-if="historyMarkers.length >= 1"
+        :path="historyMarkers"/>
     </GmapMap>
   </div>
 </template>
@@ -35,13 +35,13 @@ export default {
     buttonsBar: ButtonsBar,
   },
   computed: {
-    ...mapState(['markers', 'historyMarkers']),
+    ...mapState(['markers', 'historyMarkers', 'realtime']),
   },
   mounted() {
     this.$store.commit('update');
     this.$nextTick(() => {
-      window.setInterval(() => {
-        if (this.$store.state.realtime) {
+      setInterval(() => {
+        if (this.realtime) {
           this.$store.commit('update');
         }
       },
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     getLastMarker() {
-      return this.$store.state.markers[this.$store.state.markers.length - 1];
+      return this.markers[this.markers.length - 1];
     },
   },
 };

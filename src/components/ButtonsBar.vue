@@ -25,9 +25,6 @@
 <script>
 export default {
   name: 'buttonsBar',
-  props: [],
-  methods: {
-  },
 };
 </script>
 

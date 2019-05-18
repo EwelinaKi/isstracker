@@ -30,7 +30,7 @@ export default new Vuex.Store({
         this.state.maxDuration,
       )) {
         const historyMarkers = await utils.getHistoryPath(this.state.durationInMinutes);
-        if (historyMarkers) {
+        if (historyMarkers.length !== 0) {
           this.state.historyMarkers = historyMarkers;
         }
       } else {
